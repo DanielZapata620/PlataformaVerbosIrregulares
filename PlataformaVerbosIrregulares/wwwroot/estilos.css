@@ -147,6 +147,10 @@ td {
     color: var(--textoSecundario);
 }
 
+#oracion{
+    font-size:1.5rem;
+}
+
 .listaVerbos {
     display: flex;
     justify-content: center;
