@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Lista de verbos interactiva</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <div class="contenedor">
+        <a href="index.html" class="btn-atras">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <h2>Catálogo de verbos</h2>
+
+        <section class="panelTabla" id="panelTabla">
+            <table class="tablaVerbos">
+                <thead>
+                    <tr>
+                        <th>Verbo (base)</th>
+                        <th>Pasado</th>
+                        <th>Participio</th>
+                        <th>Español</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody">
+                    <tr>
+                        <td id="BaseForm">Selecciona un verbo abajo</td>
+                        <td id="Pasado">—</td>
+                        <td id="Participio">—</td>
+                        <td id="Espanol">—</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </section>
+
+        <section class="contenedor listaVerbos scroll" id="ListaVerbos">
+            <p class="mensajeEspera">Espere un momento los verbos estan cargandose...</p>
+        </section>
+    </div>
+
+    <script>
+        const ListaVerbos = document.querySelector("#ListaVerbos");
+        const FilaBaseForm = document.getElementById("BaseForm");
+        const FilaPasado = document.getElementById("Pasado");
+        const FilaParticipio = document.getElementById("Participio");
+        const FilaEspanol = document.getElementById("Espanol");
+        const mensaje = document.querySelector(".mensajeEspera");
+
+        let verbos = [];
+
+        async function cargarVerbos() {
+            let respuesta = await fetch("/api/verbos");
+            if (respuesta.ok) {
+                verbos = await respuesta.json();
+                console.log(verbos)
+
+                if (verbos) {
+
+                    ListaVerbos.removeChild(mensaje)
+                    verbos.forEach(v => {
+                        
+                        let span = document.createElement("span");
+                        span.textContent = v.presente;
+                        ListaVerbos.appendChild(span);
+                    });
+
+                }
+            }
+
+            
+        }
+
+        cargarVerbos();
+
+        
+        ListaVerbos.addEventListener("click", function (e) {
+            if (e.target.tagName === "SPAN") {
+                let verboSeleccionado=e.target.textContent;
+                let verbo = verbos.find(v => v.presente == verboSeleccionado);
+                console.log(verbo);
+
+                FilaBaseForm.textContent = verbo.presente;
+                FilaPasado.textContent = verbo.pasado;
+                FilaParticipio.textContent = verbo.participio;
+                FilaEspanol.textContent = verbo.espanol
+            }
+
+        });
+
+        
+    </script>
+</body>
+</html>

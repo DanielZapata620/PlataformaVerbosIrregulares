@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos de Verbos</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <section class="contenedor">
+
+        <a href="index.html" class="btn-atras">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+        <section id="escritura" class="panelTabla juego invisible">
+            <h1 id="h1Verbo">Escribe el verbo en</h1>
+
+            <input type="text" id="respuesta" class="inputRespuesta" placeholder="Escribe el verbo">
+
+            <div class="botonera">
+                <button id="verificar">Verificar</button>
+                <!--<button id="siguiente">Siguiente</button>-->
+            </div>
+
+            <p id="error" class="errorJuego"></p>
+        </section>
+
+        <section id="textoVoz" class="panelTabla juego invisible">
+            <h1 id="h1Verbo">Escucha y escribe el verbo</h1>
+
+            <span class="spanVoz"><i class="fa-solid fa-volume-high"></i></span>
+
+            <input type="text" id="respuesta" class="inputRespuesta" placeholder="Escribe el verbo">
+
+            <div class="botonera">
+                <button id="verificar">Verificar</button>
+                <!--<button id="siguiente">Siguiente</button>-->
+            </div>
+
+            <p id="error" class="errorJuego"></p>
+        </section>
+
+        <!--<section id="vozTexto" class="panelTabla juego invisible">
+            <h1 id="h1Verbo">Pronuncia el verbo correctamente</h1>
+
+            <input type="hidden" id="respuesta" >
+            <div class="botonera">
+                <button id="pronunciar">Pronunciar</button>
+                <button id="verificar">Hablar</button>
+                <button id="siguiente">Siguiente</button>
+            </div>
+
+            <p id="error" class="errorJuego">Ya casi S</p>
+        </section>-->
+
+        <section id="oraciones" class="panelTabla juego invisible">
+            <h1 id="h1Verbo"></h1>
+
+            <p id="oracion" class="textoVerbo"></p>
+
+
+            <input type="text" id="respuesta" class="inputRespuesta" placeholder="Escribe el verbo">
+
+            <div class="botonera">
+                <button id="verificar">Verificar</button>
+                
+            </div>
+
+            <p id="error" class="errorJuego"></p>
+        </section>
+
+
+
+    </section>
+
+    <script>
+        let modo = sessionStorage.getItem("modo");
+        let listaVerbos = JSON.parse(sessionStorage.getItem("verbos"));
+        let listaOraciones = JSON.parse(sessionStorage.getItem("oraciones"));
+       
+
+        let tiempos = ["presente", "pasado", "participio"];
+        let tiempoActual = "";
+        let verboActual = null;
+        let oracionActual = null;
+        let btnVerificar = null;
+
+        function obtenerTiempoAleatorio() {
+            tiempoActual = tiempos[Math.floor(Math.random() * tiempos.length)];
+        }
+
+        function obtenerVerboAleatorio() {
+            verboActual = listaVerbos[Math.floor(Math.random() * listaVerbos.length)];
+        }
+
+        function obtenerOracionAleatoria() {
+            oracionActual = listaOraciones[Math.floor(Math.random() * listaOraciones.length)];
+        }
+
+        function cargarVerbo() {
+
+            if (modo !="oraciones") {
+                if (listaVerbos.length == 0) {
+                    sessionStorage.removeItem("modo");
+                    sessionStorage.removeItem("verbos");
+                    window.location = "index.html";
+                    return;
+                }
+
+                obtenerVerboAleatorio();
+                obtenerTiempoAleatorio();
+            }
+            else {
+                if (listaOraciones.length == 0) {
+                    sessionStorage.removeItem("modo");
+                    sessionStorage.removeItem("oraciones");
+                    window.location = "index.html";
+                    return;
+                }
+
+                obtenerOracionAleatoria();
+            }
+            
+
+            document.getElementById(modo).classList.remove("invisible");
+            const titulo = document.querySelector(`#${modo} #h1Verbo`);
+            const respuesta = document.querySelector(`#${modo} #respuesta`);
+            const error = document.querySelector(`#${modo} #error`);
+            btnVerificar = document.querySelector(`#${modo} #verificar`);
+
+            error.style.backgroundColor = "transparent";
+
+            respuesta.value = "";
+            error.textContent = "";
+
+            if (modo === "escritura") {
+
+                titulo.textContent = `Escribe el verbo '${verboActual.presente}' en ${tiempoActual}`;
+            }
+
+            if (modo === "textoVoz") {
+
+                titulo.textContent = `Escucha y escribe el verbo en ${tiempoActual}`;
+                document.querySelector("#textoVoz .spanVoz").onclick = () => {
+                    hablar(verboActual[tiempoActual]);
+                }
+                
+            }
+
+            if (modo == "oraciones") {
+                titulo.textContent = `Cambia el verbo "${oracionActual.verboBase}" al timepo adecuado en el que esta la oracion `;
+                document.querySelector("#oraciones #oracion").textContent = oracionActual.descripcion
+            }
+
+          
+            
+
+            
+
+        }
+
+        function verificar() {
+
+            if (modo !== "oraciones") {
+
+                const correcta = verboActual[tiempoActual].toLowerCase();;
+
+                const campo = document.querySelector(`#${modo} #respuesta`);
+                const mensaje = document.querySelector(`#${modo} #error`);
+
+                let respuesta = campo.value.trim().toLowerCase();
+              
+
+                if (respuesta == correcta) {
+                    mensaje.textContent = "Correcto ¡Felicidades, sigue asi y seras todo un experto en verbos irregulares!";
+                    mensaje.style.backgroundColor = "lightgreen";
+
+                    
+                    listaVerbos = listaVerbos.filter(verbo => verbo.presente !== verboActual.presente);
+                    sessionStorage.setItem("verbos", JSON.stringify(listaVerbos));
+
+                    setTimeout(() => {
+                        cargarVerbo();
+                    }, 1200);
+
+                } else {
+                    if (modo == "textoVoz") {
+                        mensaje.textContent = `Incorrecto, Te dare una pista el verbo en forma base es ${verboActual.presente}`;
+                    }
+                    else {
+                        mensaje.textContent = "Incorrecto, Sigue intentandolo hasta conseguirlo para poder avanzar con el siguiente verbo";
+
+                    }
+                    mensaje.style.backgroundColor = "salmon";
+                }
+            }
+            else {
+
+                const correcta = oracionActual.verboTiempoAdecudado.toLowerCase();
+
+                const campo = document.querySelector(`#${modo} #respuesta`);
+                const mensaje = document.querySelector(`#${modo} #error`);
+
+                let respuesta = campo.value.trim().toLowerCase();
+
+
+                if (respuesta == correcta) {
+                    mensaje.textContent = "Correcto ¡Felicidades, sigue asi y seras todo un experto en verbos irregulares!";
+                    mensaje.style.backgroundColor= "lightgreen";
+
+
+                    listaOraciones = listaOraciones.filter(oracion => oracion.id !== oracionActual.id);
+                    sessionStorage.setItem("oraciones", JSON.stringify(listaVerbos));
+
+                    setTimeout(() => {
+                        cargarVerbo();
+                    }, 1500);
+
+                } else {
+                    
+                    mensaje.textContent = "Incorrecto, Sigue intentandolo hasta conseguirlo para poder avanzar con el siguiente verbo";
+                    mensaje.style.backgroundColor = "salmon";
+                }
+            }
+        }
+
+        cargarVerbo();
+
+        function hablar(verbo) {
+            const utterance = new SpeechSynthesisUtterance(verbo); 
+            utterance.lang = 'es-US'; 
+            speechSynthesis.speak(utterance);
+        }
+
+        
+        document.addEventListener("click", function (e) {
+            if (e.target.id == "verificar") {
+                verificar();
+            }
+        });
+
+    </script>
+
+
+</body>
+</html>

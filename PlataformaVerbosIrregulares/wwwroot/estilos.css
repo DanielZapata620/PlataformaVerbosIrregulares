@@ -1,0 +1,490 @@
+:root {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    --principal: #0d6e77;
+    --hover: #2563eb;
+    --fondo: #f3f6fb;
+    --borde: #e2e8f0;
+    --sombra: #cfd6e2;
+    --textoSecundario: #334155;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: #111;
+    font-size: 16px;
+}
+
+h1 {
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+h2 {
+    text-align: center;
+    color: var(--textoSecundario);
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+h4 {
+    text-align: center;
+    color: var(--textoSecundario);
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+}
+
+.modos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    height: 18rem;
+}
+
+p{
+    text-align:center;
+}
+a {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin: 0.6rem;
+    width: 40%;
+    height: 70%;
+    border-radius: 0.5rem;
+    color: var(--hover);
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+    a i {
+        font-size: 2rem;
+    }
+
+    a:hover {
+        background-color: var(--hover);
+        color: white;
+        transform: scale(1.04);
+    }
+
+.contenedor {
+    max-width: 56rem;
+    margin: 0rem auto;
+    padding: 1.2rem;
+}
+
+.contenedorVerbos {
+    display: flex;
+    margin: .5rem auto;
+    flex-wrap: wrap;
+    width: 85%;
+    gap: 2rem;
+    padding: 1.2rem;
+}
+
+.btn-atras {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: var(--hover);
+    padding: 1.2rem;
+    width: .5rem;
+    height: .5rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: .5rem;
+    text-decoration: none;
+    transition: 0.2s linear;
+    margin-bottom: 1rem;
+}
+
+
+.panelTabla {
+    background: #ffffff;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.4rem 1.2rem var(--sombra);
+    padding: 1.1rem;
+    margin-bottom: 1.2rem;
+    border: 0.06rem solid var(--borde);
+}
+
+.tablaVerbos {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1.1rem;
+}
+
+    .tablaVerbos th,
+    .tablaVerbos td {
+        padding: 0.75rem 0.6rem;
+        text-align: center;
+        border-bottom: 0.06rem solid var(--borde);
+    }
+
+    .tablaVerbos th {
+        font-weight: 600;
+        color: var(--textoSecundario);
+    }
+
+td {
+    color: #94a3b8;
+}
+
+.panelTablaEstructura td {
+    color: var(--textoSecundario);
+}
+
+.listaVerbos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: #ffffff;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.4rem 1.2rem var(--sombra);
+    padding: 1.1rem;
+    margin-bottom: 1.2rem;
+    border: 0.06rem solid var(--borde);
+}
+
+.scroll {
+    height: 45vh;
+    overflow-y: auto;
+}
+
+span {
+    display: block;
+    background-color: #ffffff;
+    border-radius: 0.2rem;
+    border: 0.06rem solid #f0f0f0;
+    padding: 0.3rem;
+    width: 5rem;
+    text-align: center;
+    transition: 0.15s ease;
+}
+
+    span:hover {
+        transform: scale(1.05);
+        background: var(--textoSecundario);
+        color: white;
+    }
+
+.opciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.reglas {
+    background: #ffffff;
+    padding: 1rem;
+    width: 35%;
+    height: 100%;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.4rem 1.2rem var(--sombra);
+    border: 0.06rem solid var(--borde);
+}
+
+    .reglas span {
+        width: 100%;
+    }
+
+.opciones span{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    
+}
+.opciones span.activo {
+    background: var(--textoSecundario);
+    color: white;
+    border-radius: 6px;
+    padding: 1rem;
+}
+
+.panelTablaEstructura {
+    background: #ffffff;
+    border-radius: 0.6rem;
+    box-shadow: 0 0.4rem 1.2rem var(--sombra);
+    padding: 1.1rem;
+    width: 50%;
+    margin-bottom: 1.2rem;
+    border: 0.06rem solid var(--borde);
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.error {
+    color: black;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    height: 1rem;
+    text-align: center;
+}
+
+.btnComenzar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin: 0.6rem;
+    width: 40%;
+    height: 70%;
+    border-radius: 0.5rem;
+    color: var(--hover);
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.correcto {
+    background-color: lightgreen;
+}
+
+.incorrecto {
+    background-color: salmon;
+}
+
+.seleccionCantidad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+#cantidadVerbos {
+    padding: 1rem;
+    font-size: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    width: 20%;
+    text-align: center;
+}
+
+
+
+#btnComenzar {
+    padding: 1rem;
+    font-size: 1rem;
+    background-color: var(--textoSecundario);
+    color: white;
+    border: none;
+    width: 20%;
+    border-radius: 0.5rem;
+    transition: 0.2s;
+}
+
+    #btnComenzar:hover {
+        background-color: var(--hover);
+    }
+
+#h1Verbo {
+    padding-top: 1rem;
+}
+
+.juego {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.invisible {
+    display: none;
+}
+
+
+.errorJuego {
+    display: block;
+    padding: 1rem;
+    width: 100%;
+    font-size: 1.2rem;
+    margin: 0;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+
+
+.botonera button {
+    font-size: 1.5rem;
+    margin: 0.5rem;
+    margin-top: 2rem;
+    background-color: var(--hover);
+    color: white;
+    border-radius: 5px;
+    padding: 1rem 2rem;
+    border: none;
+    transition: 0.3s;
+}
+
+    .botonera button:hover {
+        transform: scale(1.04);
+        background-color: var(--principal);
+    }
+
+.inputRespuesta {
+    font-size: 2rem;
+    text-align: center;
+    border-radius: 8px;
+    width: 60%;
+    padding: 0.8rem;
+    border: 2px solid var(--borde);
+    transition: 0.3s;
+    box-shadow: 0 4px 10px lightgray;
+}
+
+    .inputRespuesta:focus {
+        border-color: var(--principal);
+        box-shadow: 0 4px 12px var(--borde);
+        outline: none;
+    }
+
+.spanVoz {
+    font-size: 3rem;
+    padding: 1rem;
+    margin: 1rem;
+    margin-bottom: 1.5rem;
+    border: 3px solid var(--borde);
+}
+
+@media (max-width: 1100px) {
+    .contenedorVerbos {
+        flex-direction: column;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .panelTablaEstructura {
+        width: auto;
+    }
+
+    .reglas {
+        width: auto;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    h1 {
+        font-size: 1.7rem;
+    }
+
+    h4 {
+        font-size: 1.2rem;
+    }
+
+    .modos {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+       
+        .modos a {
+            width: 90%;
+            height: auto;
+            padding: 1.5rem 0;
+            font-size: 1.4rem;
+        }
+
+            .modos a i {
+                font-size: 2.2rem;
+            }
+
+   
+    .opciones {
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+        .opciones span {
+            width: 90%;
+            text-align: center;
+            padding: 1rem;
+        }
+
+    .tablaVerbos {
+        font-size: .8rem;
+    }
+
+    .listaVerbos {
+        font-size: .8rem;
+    }
+
+    .scroll {
+        height: 50vh;
+        overflow-y: auto;
+    }
+
+    .contenedorVerbos {
+        flex-direction: column;
+        width: 90%;
+        gap: 1rem;
+        padding: 0;
+        margin: 20px auto;
+    }
+
+    .panelTablaEstructura,
+    .reglas {
+        width: 100%;
+    }
+
+    .botonera {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+
+        .botonera button {
+            width: 90%;
+            font-size: 1.3rem;
+            margin-top: 1rem;
+        }
+
+    .inputRespuesta {
+        width: 90%;
+        font-size: 1.4rem;
+    }
+
+    #cantidadVerbos,
+    #btnComenzar {
+        width: 80%;
+        font-size: 1.1rem;
+    }
+
+    .spanVoz {
+        font-size: 2rem;
+        padding: 0.8rem;
+    }
+}

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+    <div class="contenedor">
+        <a href="index.html" class="btn-atras">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <h1>PLATAFORMA DE APRENDIZAJE DE VERBOS IRREGULARES</h1>
+        <h4>Selecciona una de las opciones para comenzar:</h4>
+
+        <section class="modos">
+            <a data-modo="escritura">
+                <i class="fa-solid fa-list"></i>
+                Escritura
+            </a>
+
+            <a data-modo="textoVoz">
+                <i class="fa-solid fa-scroll"></i>
+                Voz a texto
+            </a>
+
+            <a data-modo="oraciones">
+                <i class="fa-solid fa-scroll"></i>
+                Oraciones
+            </a>
+        </section>
+
+    </div>
+
+    <script>
+       
+        document.addEventListener("click", function (e) {
+            if (e.target.tagName == "A" || e.target.tagName == "I") {
+                let modo = e.target.closest("a").dataset.modo;
+                sessionStorage.setItem("modo", modo);
+                location.href = "cantidadVerbos.html";
+
+            }
+        })
+
+        
+    </script>
+</body>
+</html>

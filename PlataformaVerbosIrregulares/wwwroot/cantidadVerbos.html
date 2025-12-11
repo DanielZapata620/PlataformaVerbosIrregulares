@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecciona cantidad de verbos</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="contenedor">
+        <a href="index.html" class="btn-atras">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <section class="panelTabla">
+            <h1 id="titulo">¿Cuántos verbos quieres practicar hoy?</h1>
+
+            <div class="seleccionCantidad">
+                <input type="number" id="cantidadVerbos" class="inputRespuesta" min="1" max="100">
+                <button id="btnComenzar" class="btnComenzar">Comenzar</button>
+            </div>
+            <p id="errorCantidad" class="error"></p>
+        </section>
+        
+    </div>
+
+    <script>
+        const btnComenzar = document.getElementById("btnComenzar");
+        const inputCantidad = document.getElementById("cantidadVerbos");
+        const errorCantidad = document.getElementById("errorCantidad");
+        const h1 = document.getElementById("titulo");
+        const btnAtras = document.querySelector(".btn-atras");
+        let cantidad = 0;
+        let modo = sessionStorage.getItem("modo");
+
+       
+        btnComenzar.addEventListener('click', function(e){
+            cantidad = parseInt(inputCantidad.value);
+            
+
+            if (!cantidad || cantidad < 1 || cantidad > 100) {
+                errorCantidad.textContent = "Ingresa un numero entre 1 - 100";
+
+            }
+            else
+            {
+                btnComenzar.textContent = "Cargando..."
+                btnComenzar.disabled = true;
+                
+                if (modo != "oraciones") {
+                    cargarVerbos().then(() => {
+                        window.location.href = "juegos.html";
+                    });
+                }
+                else {
+                    cargarOraciones().then(() => {
+                        window.location.href = "juegos.html";
+                    });
+                }
+             
+              
+
+                errorCantidad.textContent = "";
+            }
+
+
+           
+
+            
+        });
+
+      
+        if (modo == "oraciones") {
+            h1.textContent ="¿Cuántas oraciones quieres practicar hoy?"
+        }
+        function cargarVerbos() {
+            return fetch("/api/verbos/" + cantidad)
+                .then(response => response.json())
+                .then(verbos => {
+                    sessionStorage.setItem("verbos", JSON.stringify(verbos));
+                });
+        }
+        function cargarOraciones() {
+            return fetch("/api/oraciones/" + cantidad)
+                .then(response => response.json())
+                .then(oraciones => {
+                    sessionStorage.setItem("oraciones", JSON.stringify(oraciones));
+                });
+        }
+        
+        
+        btnAtras.addEventListener("click", function (e) {
+            sessionStorage.removeItem("modo");
+        })
+
+    </script>
+
+    
+</body>
+</html>

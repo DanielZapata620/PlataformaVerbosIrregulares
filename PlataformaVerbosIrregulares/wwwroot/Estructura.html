@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Estructura Gramatical</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    
+    <div class="contenedorVerbos">
+
+        <section class="panelTablaEstructura">
+            <div class="flex">
+                <a href="index.html" class="btn-atras">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+                <h2>Estructura según el tiempo verbal</h2>
+            </div>
+            
+            <section class="opciones">
+                <span>Presente</span>
+                <span>Pasado</span>
+                <span>Participio</span>
+            </section>
+
+            <h2>Estructura Positiva</h2>
+            <table class="tablaVerbos" id="tablaAfirmativo">
+                <thead>
+                    <tr>
+                        <th>Sujeto</th>
+                        <th>Auxiliar</th>
+                        <th>Verbo</th>
+                        <th>Complemento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">Espere un momento estamos cargando las estructuras..</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Estructura Negativa</h2>
+            <table class="tablaVerbos" id="tablaNegativo">
+                <thead>
+                    <tr>
+                        <th>Sujeto</th>
+                        <th>Auxiliar</th>
+                        <th>Verbo</th>
+                        <th>Complemento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">Espere un momento estamos cargando las estructuras..</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Estructura Interrogativa</h2>
+            <table class="tablaVerbos" id="tablaInterrogativo">
+                <thead>
+                    <tr>
+                        <th>Auxiliar</th>
+                        <th>Sujeto</th>
+                        <th>Verbo</th>
+                        <th>Complemento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">Espere un momento estamos cargando las estructuras..</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="reglas" id="reglasTexto">
+
+            <div class="ListaReglas">
+                <span class="color"></span>
+                <p>Reglas Gramaticales</p>
+            </div>
+
+        </section>
+    </div>
+
+    <script>
+        const tablaAfirmativo = document.getElementById("tablaAfirmativo");
+        const tablaNegativo = document.getElementById("tablaNegativo");
+        const tablaInterrogativo = document.getElementById("tablaInterrogativo");
+        let tiempo;
+        let Estructuras;
+        const opciones = document.querySelector(".opciones");
+        const ListaReglas = document.querySelector(".ListaReglas");
+
+        async function cargarEstructuras(tiempo) {
+            let respuesta = await fetch("/api/estructuras/" + tiempo);
+            if (respuesta.ok) {
+                let Estructuras = await respuesta.json();
+                console.log(Estructuras);
+                limpiarTablas();
+                Estructuras.estructuras.forEach(e => {
+
+                    let tabla;
+                    let modo = e.modo;
+                    if (modo == "afirmativo") {
+                        tabla = tablaAfirmativo;
+                    }
+                    if (modo == "negativo") {
+                        tabla = tablaNegativo;
+                    }
+                    if (modo == "interrogativo") {
+                        tabla = tablaInterrogativo;
+                    }
+
+                    let tbody = tabla.querySelector("tbody");
+                    let tr = document.createElement("tr");
+
+                    let tdSujeto = document.createElement("td");
+                    let tdAuxiliar = document.createElement("td");
+                    let tdVerbo = document.createElement("td");
+                    let tdComplemento = document.createElement("td");
+
+                    tdSujeto.classList.add("sujeto");
+                    tdAuxiliar.classList.add("auxiliar");
+                    tdVerbo.classList.add("verbo");
+                    tdComplemento.classList.add("complemento");
+
+
+                    tdSujeto.textContent = e.sujeto;
+                    tdAuxiliar.textContent = e.auxiliar;
+                    tdVerbo.textContent = e.verbo;
+                    tdComplemento.textContent = e.complemento;
+
+
+                    if (modo == "interrogativo") {
+
+                        tr.appendChild(tdAuxiliar);
+                        tr.appendChild(tdSujeto);
+                        tr.appendChild(tdVerbo);
+                        tr.appendChild(tdComplemento);
+                    } else {
+
+                        tr.appendChild(tdSujeto);
+                        tr.appendChild(tdAuxiliar);
+                        tr.appendChild(tdVerbo);
+                        tr.appendChild(tdComplemento);
+                    }
+
+                    tr.classList.add(e.tipo);
+                    tbody.appendChild(tr);
+
+
+
+
+
+
+
+
+                });
+                let indiceColor = 0;
+                const coloresDiferentes = [
+                    "lightcoral",
+                    "lightsalmon",
+                    "palegreen",
+                    "lightseagreen",
+                    "lightblue",
+                    "lightsteelblue",
+                    "wheat"
+                ];
+                ListaReglas.replaceChildren();
+                Estructuras.reglas.forEach(r => {
+
+                    let span = document.createElement("span");
+                    let p = document.createElement("p");
+
+                    span.classList.add("color");
+                    span.style.backgroundColor = coloresDiferentes[indiceColor];
+                    indiceColor++;
+                    p.textContent = r.descripcion;
+
+                    ListaReglas.appendChild(span);
+                    ListaReglas.appendChild(p);
+
+
+                    if (r.modo == "afirmativo") {
+                        tabla = tablaAfirmativo;
+                    }
+                    if (r.modo == "negativo") {
+                        tabla = tablaNegativo;
+                    }
+                    if (r.modo == "interrogativo") {
+                        tabla = tablaInterrogativo;
+                    }
+
+                    console.log(tabla);
+                    let trClase = "." + r.tipo;
+                    console.log(trClase);
+                    let trCambio = tabla.querySelector(trClase)
+                    console.log(trCambio);
+                    let tdClase = "." + r.cambioEn;
+                    console.log(tdClase);
+                    let tdCambio = trCambio.querySelector(tdClase);
+                    console.log("Hola");
+                    console.log(tdCambio);
+                    tdCambio.style.backgroundColor = coloresDiferentes[indiceColor];
+
+
+
+
+                })
+            }
+        }
+        function limpiarTablas() {
+            const tablas = [tablaAfirmativo, tablaNegativo, tablaInterrogativo];
+            indiceColor = 0;
+            tablas.forEach(tabla => {
+                tabla.querySelector("tbody").replaceChildren();
+
+            });
+        }
+
+
+        opciones.addEventListener("click", function (e) {
+            if (e.target.tagName === "SPAN") {
+
+                let spanActivo = opciones.querySelector(".activo");
+                spanActivo.classList.remove("activo");
+                e.target.classList.add("activo");
+
+                let tiempo = e.target.textContent;
+                console.log(tiempo);
+                cargarEstructuras(tiempo);
+            }
+        });
+
+
+
+        cargarEstructuras("Presente");
+        document.querySelector('.opciones span:nth-child(1)').classList.add("activo");
+
+
+    </script>
+</body>
+</html>
